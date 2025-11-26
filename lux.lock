@@ -1,0 +1,29 @@
+{
+  "version": "1.0.0",
+  "dependencies": {
+    "rocks": {
+      "bc5ed3d9951e893a71341531132684b171174b9c48e63da338637cc6691a07b2": {
+        "name": "prelive.nvim",
+        "version": "e3942caf001addc10588155bffe3896de1ef6866-1",
+        "pinned": false,
+        "opt": false,
+        "dependencies": [],
+        "constraint": "==e3942caf001addc10588155bffe3896de1ef6866",
+        "binaries": [],
+        "source": "rockspec+\nrockspec_format = \"3.0\"\npackage = \"prelive.nvim\"\nversion = \"e3942caf001addc10588155bffe3896de1ef6866-1\"\nsource = {\nurl = \"https://github.com/hat0uma/prelive.nvim.git\",\ntag = \"e3942caf001addc10588155bffe3896de1ef6866\",\n}\nbuild = {\n  type = \"source\"\n}",
+        "source_url": {
+          "type": "git",
+          "url": "https://github.com/hat0uma/prelive.nvim.git",
+          "ref": "e3942caf001addc10588155bffe3896de1ef6866"
+        },
+        "hashes": {
+          "rockspec": "sha256-DUHO89t6C+bWd/GrQf2uivxEkuJUJHkQ+Az8iduTOAU=",
+          "source": "sha256-KE1dcbLTksUJYedEpjUqIWYf5StWozSaWBTd9JI5Iko="
+        }
+      }
+    },
+    "entrypoints": [
+      "bc5ed3d9951e893a71341531132684b171174b9c48e63da338637cc6691a07b2"
+    ]
+  }
+}

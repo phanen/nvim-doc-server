@@ -1,0 +1,23 @@
+package = "nvim-doc-server"
+version = "0.1.0"
+lua = ">=5.1"
+
+[description]
+summary = ""
+maintainer = "phan"
+labels = [""]
+
+
+[dependencies]
+
+[dependencies."prelive.nvim"]
+git = "github:hat0uma/prelive.nvim"
+version = "e3942caf001addc10588155bffe3896de1ef6866"
+# Add your dependencies here
+# `busted = ">=2.0"`
+
+[run]
+args = ["src/main.lua"]
+
+[build]
+type = "builtin"

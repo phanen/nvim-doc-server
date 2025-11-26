@@ -93,6 +93,9 @@ local server = Server:new("127.0.0.1", 8080, {
   max_chunk_ext_size = 1024 * 1,
 })
 server:use_logger("/")
+server:use("/", function(_, res)
+  res.headers:set("Connection", "close")
+end)
 server:get("/hello", function(_, res)
   res:write("Hello, World!")
 end)

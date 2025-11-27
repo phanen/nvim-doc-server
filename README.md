@@ -1,6 +1,6 @@
 ## nvim doc server
 
-HTTP server for rendering Neovim documentation, hosted inside Neovim.
+HTTP server/telegram bot for vimdoc, hosted inside Neovim.
 
 ```sh
 # kill -9 $(ps -p $(lsof -ti:8080) -o pid,cmd --no-headers | grep nvim | awk '{print $1}')

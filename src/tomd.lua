@@ -15,23 +15,23 @@ end
 ---@param buf integer
 ---@param out string[]
 local function process_node(node, buf, out)
-  local type = node:type()
-  if type == "tag" then
+  local ty = node:type()
+  if ty == "tag" then
     out[#out + 1] = "## " .. ts.get_node_text(node, buf)
-  elseif type == "taglink" then
+  elseif ty == "taglink" then
     local txt = ts.get_node_text(node, buf)
     txt = (vim.trim(txt):gsub("^|", ""):gsub("|$", ""))
     local url = "https://neovim.io/doc/user/helptag.html?tag=" .. vim.uri_encode(txt)
     out[#out + 1] = "[" .. txt .. "](" .. url .. ")"
-  elseif type == "optionlink" then
+  elseif ty == "optionlink" then
     local txt = ts.get_node_text(node, buf)
     out[#out + 1] = "`" .. txt .. "`"
-  elseif type == "keycode" then
+  elseif ty == "keycode" then
     local txt = ts.get_node_text(node, buf)
     out[#out + 1] = "`" .. txt .. "`"
-  elseif type == "argument" then
+  elseif ty == "argument" then
     out[#out + 1] = "*" .. ts.get_node_text(node, buf) .. "*"
-  elseif type == "codeblock" then
+  elseif ty == "codeblock" then
     local lang = ""
     local code = {}
     for child in node:iter_children() do
@@ -44,13 +44,13 @@ local function process_node(node, buf, out)
       end
     end
     out[#out + 1] = "```" .. lang .. "\n" .. table.concat(code, "\n") .. "\n```"
-  elseif type == "line_li" then
+  elseif ty == "line_li" then
     local line = {}
     for child in node:iter_children() do
       process_node(child, buf, line)
     end
     out[#out + 1] = "- " .. table.concat(line, " ")
-  elseif type == "column_heading" then
+  elseif ty == "column_heading" then
     local heading = {}
     for child in node:iter_children() do
       if child:type() == "heading" then
@@ -58,9 +58,9 @@ local function process_node(node, buf, out)
       end
     end
     out[#out + 1] = table.concat(heading, " ")
-  elseif type == "word" then
+  elseif ty == "word" then
     out[#out + 1] = ts.get_node_text(node, buf)
-  elseif type == "line" then
+  elseif ty == "line" then
     local line = {}
     for child in node:iter_children() do
       process_node(child, buf, line)

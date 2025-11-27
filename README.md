@@ -4,7 +4,11 @@ HTTP server for rendering Neovim documentation, hosted inside Neovim.
 
 ```sh
 # kill -9 $(ps -p $(lsof -ti:8080) -o pid,cmd --no-headers | grep nvim | awk '{print $1}')
+# http server
 lx -v "LUA=./n.lua" --lua-version jit run
+
+# telegram bot
+lx -v "LUA=./n.lua" --lua-version jit lua src/bot.lua
 ```
 
 ## api

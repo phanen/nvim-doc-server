@@ -70,9 +70,11 @@ end
 local tdlib = ffi.load("/usr/lib/libtdjson.so")
 tdlib.td_set_log_verbosity_level(0)
 
+---@class td.client
 local _M = {}
 
 function _M.send(self, request)
+  -- vim.print(json.encode(old2new(request)))
   tdlib.td_json_client_send(self.client, json.encode(old2new(request)))
 end
 
@@ -109,7 +111,8 @@ function _M.rawReceive(self, timeout)
   if resp == nil then
     return
   end
-  return new2old(json.decode(ffi.string(resp)))
+  return json.decode(ffi.string(resp))
+  -- return new2old(json.decode(ffi.string(resp)))
 end
 
 function _M.receive(self, timeout)
@@ -136,6 +139,7 @@ function _M.destroy(self)
   tdlib.td_json_client_destroy(self.client)
 end
 
+-- https://github.com/giuseppeM99/tdlua/blob/c48d0176f85266badace6188e9334e616622e77d/tdlua.cpp#L172
 function _M.checkAuthState(self, update)
   if update["@type"] == "updateAuthorizationState" then
     if not self.ready and update["authorization_state"]["@type"] == "authorizationStateReady" then

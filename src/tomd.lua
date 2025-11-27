@@ -29,6 +29,35 @@ local function process_node(node, buf, out)
   elseif type == "keycode" then
     local txt = ts.get_node_text(node, buf)
     out[#out + 1] = "`" .. txt .. "`"
+  elseif type == "argument" then
+    out[#out + 1] = "*" .. ts.get_node_text(node, buf) .. "*"
+  elseif type == "codeblock" then
+    local lang = ""
+    local code = {}
+    for child in node:iter_children() do
+      if child:type() == "language" then
+        lang = ts.get_node_text(child, buf)
+      elseif child:type() == "code" then
+        for line_node in child:iter_children() do
+          code[#code + 1] = ts.get_node_text(line_node, buf)
+        end
+      end
+    end
+    out[#out + 1] = "```" .. lang .. "\n" .. table.concat(code, "\n") .. "\n```"
+  elseif type == "line_li" then
+    local line = {}
+    for child in node:iter_children() do
+      process_node(child, buf, line)
+    end
+    out[#out + 1] = "- " .. table.concat(line, " ")
+  elseif type == "column_heading" then
+    local heading = {}
+    for child in node:iter_children() do
+      if child:type() == "heading" then
+        heading[#heading + 1] = "**" .. ts.get_node_text(child, buf) .. "**"
+      end
+    end
+    out[#out + 1] = table.concat(heading, " ")
   elseif type == "word" then
     out[#out + 1] = ts.get_node_text(node, buf)
   elseif type == "line" then

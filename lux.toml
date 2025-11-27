@@ -9,6 +9,7 @@ labels = [""]
 
 
 [dependencies]
+serpent = "0.30-2"
 
 [dependencies."prelive.nvim"]
 git = "github:hat0uma/prelive.nvim"

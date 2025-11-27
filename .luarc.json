@@ -2,7 +2,8 @@
   "workspace": {
     "library": [
       "$VIMRUNTIME",
-      ".lux/jit/bc5ed3d9951e893a71341531132684b171174b9c48e63da338637cc6691a07b2-prelive.nvim@e3942caf001addc10588155bffe3896de1ef6866-1/src"
+      ".lux/jit/bc5ed3d9951e893a71341531132684b171174b9c48e63da338637cc6691a07b2-prelive.nvim@e3942caf001addc10588155bffe3896de1ef6866-1/src",
+      ".lux/jit/e9f690fccff4f2a1ff89dd1f5c03632d6817b878b82ec4c24291e781841e6061-serpent@0.30-2/src"
     ]
   }
 }

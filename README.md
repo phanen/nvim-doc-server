@@ -18,3 +18,5 @@ lx -v "LUA=./n.lua" --lua-version jit run
 ## credits
 * https://github.com/hat0uma/prelive.nvim
 * https://github.com/nvim-neorocks/lux
+* https://github.com/giuseppeM99/tdluaJIT
+* https://github.com/giuseppeM99/tdlua

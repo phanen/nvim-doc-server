@@ -20,10 +20,30 @@
           "rockspec": "sha256-DUHO89t6C+bWd/GrQf2uivxEkuJUJHkQ+Az8iduTOAU=",
           "source": "sha256-KE1dcbLTksUJYedEpjUqIWYf5StWozSaWBTd9JI5Iko="
         }
+      },
+      "e9f690fccff4f2a1ff89dd1f5c03632d6817b878b82ec4c24291e781841e6061": {
+        "name": "serpent",
+        "version": "0.30-2",
+        "pinned": false,
+        "opt": false,
+        "dependencies": [],
+        "constraint": "==0.30",
+        "binaries": [],
+        "source": "luarocks_rockspec+https://luarocks.org/",
+        "source_url": {
+          "type": "git",
+          "url": "https://github.com/pkulchenko/serpent",
+          "ref": "0.30"
+        },
+        "hashes": {
+          "rockspec": "sha256-liSyfz5iw4w/ZtMK3y7gCsKGpUTXHrhkAzborFKmA20=",
+          "source": "sha256-aCP/Lk11wdnqXzntgNlyZz1LkLgZApcvDiA//LLzAGE="
+        }
       }
     },
     "entrypoints": [
-      "bc5ed3d9951e893a71341531132684b171174b9c48e63da338637cc6691a07b2"
+      "bc5ed3d9951e893a71341531132684b171174b9c48e63da338637cc6691a07b2",
+      "e9f690fccff4f2a1ff89dd1f5c03632d6817b878b82ec4c24291e781841e6061"
     ]
   }
 }

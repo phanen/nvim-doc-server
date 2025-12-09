@@ -99,6 +99,16 @@ if not ... then
   return
 end
 
+-- https://github.com/lunarmodules/lua-compat-5.3/blob/4f445bfaf6d970d7df1479b960fa4f2bac63047c/compat53/module.lua#L118
+local maxint = 1
+while maxint + 1 > maxint and 2 * maxint > maxint do
+  maxint = maxint * 2
+end
+if 2 * maxint <= maxint then
+  maxint = 2 * maxint - 1
+else
+  maxint = maxint
+end
 while true do
-  vim.wait(0)
+  vim.wait(maxint)
 end

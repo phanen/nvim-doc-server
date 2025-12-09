@@ -68,6 +68,29 @@ server:get("/version", function(req, res)
   res:write(r, nil, not ok and http.status.NOT_FOUND or nil)
 end)
 
+server:get("/colorscheme", function(req, res)
+  local scheme = req.query or ""
+  if not scheme or #scheme == 0 then
+    local ok, schemes = pcall(function()
+      return fn.getcompletion("", "color")
+    end)
+    if ok and type(schemes) == "table" then
+      res:write("Available colorschemes:\n" .. table.concat(schemes, "\n"))
+    else
+      res:write("Unable to list colorschemes", nil, http.status.INTERNAL_SERVER_ERROR)
+    end
+    return
+  end
+  local ok, err = pcall(function()
+    vim.cmd.colorscheme(scheme)
+  end)
+  if ok then
+    res:write("Colorscheme set to: " .. scheme)
+  else
+    res:write("Failed to set colorscheme: " .. tostring(err), nil, http.status.BAD_REQUEST)
+  end
+end)
+
 -- vim.o.verbose = 0
 server:get("/", function(_, res)
   local info = [[
@@ -79,6 +102,7 @@ server:get("/", function(_, res)
       <li><b>/version?query</b> - Get Neovim help version info</li>
       <li><b>/hello</b> - Simple Hello World response</li>
       <li><b>/echo</b> - Echo request info</li>
+      <li><b>/colorscheme</b> - List all colorschemes or set colorscheme (?query=scheme)<br>
     </ul>
     <p>Examples:</p>
     <ul>
@@ -86,6 +110,8 @@ server:get("/", function(_, res)
       <li><a href="/ex2?hi"><code>/ex2?hi</code></a></li>
       <li><a href="/doc?wildtrigger"><code>/doc?wildtrigger</code></a></li>
       <li><a href="/version?treesitter"><code>/version?treesitter</code></a></li>
+      <li><a href="/colorscheme"><code>/colorscheme</code></a> <small>(list all colorschemes)</small></li>
+      <li><a href="/colorscheme?tokyonight"><code>/colorscheme?tokyonight</code></a> <small>(set colorscheme)</small></li>
       <li><a href="/hello"><code>/hello</code></a></li>
       <li><a href="/echo"><code>/echo</code></a></li>
     </ul>

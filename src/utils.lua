@@ -7,7 +7,10 @@ M.init_nvim = function()
   vim.env.XDG_CONFIG_HOME = vim.fs.abspath("./deps/.config")
   ---@diagnostic disable-next-line: param-type-mismatch
   vim.opt.pp:append(vim.fs.joinpath(fn.stdpath("data"), "site"))
-  vim.pack.add({ { src = "https://github.com/tweekmonster/helpful.vim" } }, { confirm = false })
+  vim.pack.add({
+    { src = "https://github.com/tweekmonster/helpful.vim" },
+    { src = "https://github.com/folke/tokyonight.nvim" },
+  }, { confirm = false })
   vim.cmd.runtime("plugin/helpful.vim")
   -- vim.pack.update(nil, { force = true })
   -- todo: handle termresponse

@@ -16,6 +16,48 @@ M.init_nvim = function()
   -- todo: handle termresponse
   -- api.nvim_ui_send = function(c) io.stderr:write(c) end
   require("vim._extui").enable({}) -- redir
+  local ns = api.nvim_create_namespace("nvim-doc-server")
+  local ansi = require("ansi")
+  -- "https://github.com/neovim/neovim/pull/36884"
+  if true then
+    return
+  end
+  vim.ui_attach(
+    ns,
+    { ext_messages = true },
+    vim.schedule_wrap(function(event, kind, ...)
+      if event ~= "msg_show" then
+        return
+      end
+      local args = { ... }
+      local chunks = args[1]
+      -- pretty print for list_cmd style payload
+      if type(chunks) == "table" and type(chunks[1]) == "table" then
+        local colored = {}
+        for _, chunk in ipairs(chunks) do
+          if type(chunk) == "table" then
+            local text = chunk[2]
+            local hl_id = chunk[3]
+            local colored_text = text
+            if hl_id and type(hl_id) == "number" then
+              local hl_name = fn.synIDattr(hl_id, "name")
+              if hl_name and #hl_name > 0 then
+                colored_text = ansi.ansi_from_hl(hl_name, text)
+              end
+            end
+            table.insert(colored, colored_text)
+          end
+        end
+        -- io.stderr:write(kind .. ": ")
+        io.stderr:write(table.concat(colored, ""))
+        io.stderr:write("\n")
+      else
+        io.stderr:write(kind .. ": ")
+        -- io.stderr:write(payload[1])
+        -- io.stderr:write(vim.inspect(args) .. "\n")
+      end
+    end)
+  )
 end
 
 M.render_extwin = function(timeout)

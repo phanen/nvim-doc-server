@@ -18,9 +18,12 @@ lx -v "LUA=./n.lua" --lua-version jit lua src/bot.lua
 * `/ex2?query` - Executes ex command and returns HTML output
 * `/doc?query` - Returns Neovim help documentation
 * `/version?query` - Returns Neovim help version info
+* `/colorscheme` List all colorschemes or set colorscheme
+* `/colorscheme?tokyonight` Set colorscheme
 
 ## credits
 * https://github.com/hat0uma/prelive.nvim
 * https://github.com/nvim-neorocks/lux
 * https://github.com/giuseppeM99/tdluaJIT
 * https://github.com/giuseppeM99/tdlua
+* https://github.com/ibhagwan/fzf-lua/blob/29efa7a4d8292e68ee64e7ec16ad1f88ee3c3f65/lua/fzf-lua/utils.lua#L670

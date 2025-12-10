@@ -2,6 +2,40 @@ local api, fn = vim.api, vim.fn
 
 local M = {}
 
+local ui_attach_callabck = function(event, kind, ...)
+  if event ~= "msg_show" then
+    return
+  end
+  local args = { ... }
+  local chunks = args[1]
+  -- pretty print for list_cmd style payload
+  if type(chunks) == "table" and type(chunks[1]) == "table" then
+    local colored = {}
+    local ansi = require("ansi")
+    for _, chunk in ipairs(chunks) do
+      if type(chunk) == "table" then
+        local text = chunk[2]
+        local hl_id = chunk[3]
+        local colored_text = text
+        if hl_id and type(hl_id) == "number" then
+          local hl_name = fn.synIDattr(hl_id, "name")
+          if hl_name and #hl_name > 0 then
+            colored_text = ansi.ansi_from_hl(hl_name, text)
+          end
+        end
+        table.insert(colored, colored_text)
+      end
+    end
+    -- io.stderr:write(kind .. ": ")
+    io.stderr:write(table.concat(colored, ""))
+    io.stderr:write("\n")
+  else
+    io.stderr:write(kind .. ": ")
+    -- io.stderr:write(payload[1])
+    -- io.stderr:write(vim.inspect(args) .. "\n")
+  end
+end
+
 M.init_nvim = function()
   vim.env.XDG_DATA_HOME = vim.fs.abspath("./deps/.data")
   vim.env.XDG_CONFIG_HOME = vim.fs.abspath("./deps/.config")
@@ -17,47 +51,11 @@ M.init_nvim = function()
   -- api.nvim_ui_send = function(c) io.stderr:write(c) end
   require("vim._extui").enable({}) -- redir
   local ns = api.nvim_create_namespace("nvim-doc-server")
-  local ansi = require("ansi")
-  -- "https://github.com/neovim/neovim/pull/36884"
-  if true then
-    return
+  -- https://github.com/neovim/neovim/pull/36884
+  local version = api.nvim_exec2("version", { output = true }).output:match("NVIM (.-)\n")
+  if vim.version.parse(version) >= vim.version.parse("v0.12.0-dev-1793+g71a22e20ad") then
+    vim.ui_attach(ns, { ext_messages = true }, vim.schedule_wrap(ui_attach_callabck))
   end
-  vim.ui_attach(
-    ns,
-    { ext_messages = true },
-    vim.schedule_wrap(function(event, kind, ...)
-      if event ~= "msg_show" then
-        return
-      end
-      local args = { ... }
-      local chunks = args[1]
-      -- pretty print for list_cmd style payload
-      if type(chunks) == "table" and type(chunks[1]) == "table" then
-        local colored = {}
-        for _, chunk in ipairs(chunks) do
-          if type(chunk) == "table" then
-            local text = chunk[2]
-            local hl_id = chunk[3]
-            local colored_text = text
-            if hl_id and type(hl_id) == "number" then
-              local hl_name = fn.synIDattr(hl_id, "name")
-              if hl_name and #hl_name > 0 then
-                colored_text = ansi.ansi_from_hl(hl_name, text)
-              end
-            end
-            table.insert(colored, colored_text)
-          end
-        end
-        -- io.stderr:write(kind .. ": ")
-        io.stderr:write(table.concat(colored, ""))
-        io.stderr:write("\n")
-      else
-        io.stderr:write(kind .. ": ")
-        -- io.stderr:write(payload[1])
-        -- io.stderr:write(vim.inspect(args) .. "\n")
-      end
-    end)
-  )
 end
 
 M.render_extwin = function(timeout)

@@ -49,7 +49,7 @@ M.init_nvim = function()
   -- vim.pack.update(nil, { force = true })
   -- todo: handle termresponse
   -- api.nvim_ui_send = function(c) io.stderr:write(c) end
-  require("vim._extui").enable({}) -- redir
+  require("vim._core.ui2").enable({}) -- redir
   local ns = api.nvim_create_namespace("nvim-doc-server")
   -- https://github.com/neovim/neovim/pull/36884
   local version = api.nvim_exec2("version", { output = true }).output:match("NVIM (.-)\n")
@@ -59,7 +59,7 @@ M.init_nvim = function()
 end
 
 M.render_extwin = function(timeout)
-  local buf = require("vim._extui.shared").bufs.cmd
+  local buf = require("vim._core.ui2").bufs.cmd
   buf = buf ~= -1 and buf
     or vim.iter(api.nvim_list_bufs()):find(function(b)
       return vim.bo[b].filetype == "cmd"

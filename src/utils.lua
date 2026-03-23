@@ -75,6 +75,7 @@ M.render_extwin = function(timeout)
     return false, "Pager is not displayed!"
   end
   local html = vim._with({ silent = true }, function()
+    pcall(vim.cmd.packadd, "nvim.tohtml")
     return require("tohtml").tohtml(win)
   end)
   return true, table.concat(html, "\n")
